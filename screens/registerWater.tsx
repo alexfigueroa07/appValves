@@ -68,23 +68,7 @@ const RegisterWater = ({ navigation }: any) => {
                 onChangeText={setLocation}
             />
 
-            <TextInput
-                style={styles.input}
-                placeholder="Lectura Actual (m³)"
-                placeholderTextColor="#737373"
-                keyboardType="numeric"
-                value={currentReading}
-                onChangeText={setCurrentReading}
-            />
 
-            <TextInput
-                style={styles.input}
-                placeholder="Lectura Anterior (m³)"
-                placeholderTextColor="#737373"
-                keyboardType="numeric"
-                value={previousReading}
-                onChangeText={setPreviousReading}
-            />
 
             <Text style={styles.label}>Nivel de Tarifa:</Text>
             <TextInput
@@ -119,7 +103,7 @@ const RegisterWater = ({ navigation }: any) => {
                 onChangeText={setPreviousPayment}
             />
 
-            <Text style={styles.label}>Fecha de Vencimiento:</Text>
+            <Text style={styles.label}>Fecha de Vencimiento/Pagos mensuales:</Text>
             <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.dateButton}>
                 <Text style={styles.dateButtonText}>Seleccionar Fecha</Text>
             </TouchableOpacity>
@@ -137,7 +121,6 @@ const RegisterWater = ({ navigation }: any) => {
                 />
             )}
 
-            <Text style={styles.label}>Consumo Calculado: {calculateConsumed()} m³</Text>
 
             <TouchableOpacity style={styles.button} onPress={handleNext}>
                 <Text style={styles.buttonText}>SIGUIENTE</Text>

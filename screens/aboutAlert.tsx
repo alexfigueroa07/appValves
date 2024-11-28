@@ -5,10 +5,10 @@ import {
     StyleSheet,
     ScrollView,
     TextInput,
-    Button,
-    Image,
     TouchableOpacity,
+    Image,
 } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 
 const About = () => {
     const [subject, setSubject] = useState('');
@@ -16,11 +16,9 @@ const About = () => {
 
     // Function to handle form submission
     const handleSubmit = () => {
-        // Here you would handle the form submission logic (e.g., send to a backend)
         console.log('Subject:', subject);
         console.log('Message:', message);
-        alert('Message sent!');
-        // Reset form fields
+        alert('Mensaje enviado con éxito');
         setSubject('');
         setMessage('');
     };
@@ -30,13 +28,11 @@ const About = () => {
             {/* Header Section */}
             <View style={styles.headerSection}>
                 <Image
-                    source={require('../assets/images/logo-removebg-preview (1).png')}
+                    source={require('../assets/images/LOGO alert h2oiso.png')}
                     style={styles.logo}
                     resizeMode="contain"
                 />
-                <View>
-                    <Text style={styles.companyName}>AlertH2O</Text>
-                </View>
+                <Text style={styles.companyName}>AlertH2O</Text>
             </View>
 
             {/* Who We Are Section */}
@@ -56,7 +52,6 @@ const About = () => {
 
             {/* Contact Section */}
             <View style={styles.contactSection}>
-                {/* Contact Us Message */}
                 <Text style={styles.contactTitle}>¿Tienes Dudas? Contáctanos:</Text>
 
                 {/* Form */}
@@ -66,24 +61,39 @@ const About = () => {
                         placeholder="Asunto"
                         value={subject}
                         onChangeText={setSubject}
+                        placeholderTextColor="#737373"
                     />
                     <TextInput
                         style={[styles.input, { height: 80 }]}
                         placeholder="Mensaje"
-                        multiline={true}
+                        multiline
                         numberOfLines={4}
                         value={message}
                         onChangeText={setMessage}
+                        placeholderTextColor="#737373"
                     />
                     <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
                         <Text style={styles.submitButtonText}>Enviar</Text>
                     </TouchableOpacity>
                 </View>
 
-                {/* Map Placeholder */}
+                {/* Map Section */}
                 <View style={styles.mapContainer}>
-                    <Text style={styles.mapPlaceholder}>[Mapa aquí]</Text>
-
+                    <MapView
+                        style={styles.map}
+                        initialRegion={{
+                            latitude: 21.846033,
+                            longitude: -102.722866,
+                            latitudeDelta: 0.01,
+                            longitudeDelta: 0.01,
+                        }}
+                    >
+                        <Marker
+                            coordinate={{ latitude: 21.846033, longitude: -102.722866 }}
+                            title="AlertH2O"
+                            description="Nuestra ubicación"
+                        />
+                    </MapView>
                 </View>
 
                 {/* Contact Details */}
@@ -109,28 +119,22 @@ const About = () => {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#F5F5F5',
     },
     headerSection: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 2,
-
+        marginBottom: 20,
     },
     logo: {
-        width: 150,
-        height: 180,
+        width: 100,
+        height: 100,
         marginRight: 15,
     },
     companyName: {
-        fontSize: 24,
+        fontSize: 28,
         fontWeight: 'bold',
-        color: '#4BA69D',
-    },
-    slogan: {
-        fontSize: 16,
-        color: '#555',
-        fontStyle: 'italic',
+        color: '#04BFBF',
     },
     section: {
         marginBottom: 20,
@@ -138,84 +142,89 @@ const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#4BA69D',
+        color: '#04BFBF',
         marginBottom: 10,
-        textAlign: 'center'
-
     },
     sectionText: {
         textAlign: 'justify',
         fontSize: 16,
-        color: '#555',
-        lineHeight: 22,
+        color: '#424242',
+        lineHeight: 24,
     },
     listeningMessage: {
         fontSize: 16,
-        color: '#4BA69D',
+        color: '#04BFBF',
         fontWeight: 'bold',
         textAlign: 'center',
         marginVertical: 20,
     },
     contactSection: {
-        paddingVertical: 20,
+        marginBottom: 20,
     },
     contactTitle: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#4BA69D',
+        color: '#04BFBF',
         marginBottom: 15,
         textAlign: 'center',
     },
     formContainer: {
-        backgroundColor: '#D8F0F2',
+        backgroundColor: '#FFFFFF',
         borderRadius: 10,
-        padding: 15,
+        padding: 20,
         marginBottom: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        elevation: 4,
     },
     input: {
-        backgroundColor: '#ffffff',
+        backgroundColor: '#F5F5F5',
         borderWidth: 1,
-        borderColor: '#ddd',
-        borderRadius: 5,
+        borderColor: '#B0BEC5',
+        borderRadius: 8,
         padding: 10,
         marginBottom: 10,
         fontSize: 16,
+        color: '#424242',
     },
     submitButton: {
-        backgroundColor: '#4BA69D',
-        borderRadius: 5,
-        paddingVertical: 10,
+        backgroundColor: '#04BFBF',
+        borderRadius: 8,
+        paddingVertical: 12,
         alignItems: 'center',
     },
     submitButtonText: {
-        color: '#ffffff',
+        color: '#FFFFFF',
         fontSize: 16,
         fontWeight: 'bold',
     },
     mapContainer: {
         height: 200,
-        backgroundColor: '#D8F0F2',
         borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
+        overflow: 'hidden',
         marginBottom: 20,
     },
-    mapPlaceholder: {
-        color: '#888',
-        fontSize: 16,
+    map: {
+        flex: 1,
     },
     contactDetails: {
-        backgroundColor: '#D8F0F2',
+        backgroundColor: '#FFFFFF',
         borderRadius: 10,
-        padding: 15,
+        padding: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        elevation: 4,
     },
     contactInfo: {
         fontSize: 16,
-        color: '#555',
+        color: '#424242',
         marginBottom: 10,
     },
     bold: {
         fontWeight: 'bold',
+        color: '#04BFBF',
     },
 });
 

@@ -91,32 +91,7 @@ const Register = ({ navigation }: any) => {
                 placeholderTextColor="#737373"
             />
 
-            <TextInput
-                style={styles.input}
-                placeholder="País"
-                value={country}
-                onChangeText={setCountry}
-                autoCapitalize="words"
-                placeholderTextColor="#737373"
-            />
 
-            <TextInput
-                style={styles.input}
-                placeholder="Estado"
-                value={state}
-                onChangeText={setState}
-                autoCapitalize="words"
-                placeholderTextColor="#737373"
-            />
-
-            <TextInput
-                style={styles.input}
-                placeholder="Teléfono"
-                value={phone}
-                onChangeText={setPhone}
-                keyboardType="phone-pad"
-                placeholderTextColor="#737373"
-            />
 
             <TouchableOpacity style={styles.button} onPress={handleRegister}>
                 <Text style={styles.buttonText}>Registrarse</Text>

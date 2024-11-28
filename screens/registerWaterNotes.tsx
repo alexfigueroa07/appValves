@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, TextInput, Alert, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import * as Progress from 'react-native-progress'; // Librería para la barra de progreso
 
 const RegisterWaterNotes = ({ navigation }: any) => {
     const [waterPotable, setWaterPotable] = useState('No');
@@ -11,29 +12,37 @@ const RegisterWaterNotes = ({ navigation }: any) => {
         previousReading: '',
         litersConsumed: '',
     });
+    const [weeklyAverage, setWeeklyAverage] = useState(0);
+    const MAX_WEEKLY_CONSUMPTION = 50000; // Consumo máximo estimado por semana (en litros)
 
-    // Calcular litros consumidos solo cuando cambian las lecturas
+    // Calcular litros consumidos y promedio semanal
     useEffect(() => {
-        const calculateLitersConsumed = () => {
+        const calculateConsumption = () => {
             const current = parseFloat(notesData.currentReading);
             const previous = parseFloat(notesData.previousReading);
 
             if (!isNaN(current) && !isNaN(previous) && current >= previous) {
                 const cubicMeters = current - previous; // Diferencia en m³
                 const liters = cubicMeters * 1000; // Conversión a litros
+                const weeklyAvg = liters / 8; // Consumo semanal promedio (2 meses = 8 semanas)
+
                 setNotesData((prevState) => ({
                     ...prevState,
                     litersConsumed: liters.toFixed(2),
                 }));
+
+                setWeeklyAverage(weeklyAvg);
             } else {
                 setNotesData((prevState) => ({
                     ...prevState,
                     litersConsumed: '',
                 }));
+
+                setWeeklyAverage(0);
             }
         };
 
-        calculateLitersConsumed();
+        calculateConsumption();
     }, [notesData.currentReading, notesData.previousReading]);
 
     const handleInputChange = (field: string, value: string) => {
@@ -87,6 +96,17 @@ const RegisterWaterNotes = ({ navigation }: any) => {
                 Consumo Calculado: {notesData.litersConsumed
                     ? `${notesData.litersConsumed} litros`
                     : 'Datos inválidos'}
+            </Text>
+
+            {/* Barra de progreso para el consumo semanal */}
+            <Text style={styles.label}>Consumo semanal promedio:</Text>
+            <Progress.Bar
+                progress={Math.min(weeklyAverage / MAX_WEEKLY_CONSUMPTION, 1)} // Progreso en porcentaje
+                width={300}
+                color={weeklyAverage > MAX_WEEKLY_CONSUMPTION ? 'red' : '#04BFBF'} // Cambiar color si excede el máximo
+            />
+            <Text style={styles.dataText}>
+                {weeklyAverage.toFixed(2)} litros/semana ({((weeklyAverage / MAX_WEEKLY_CONSUMPTION) * 100).toFixed(1)}%)
             </Text>
 
             <Text style={styles.label}>¿Se tiene agua potable?</Text>
@@ -170,6 +190,11 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 18,
         fontWeight: 'bold',
+    },
+    dataText: {
+        fontSize: 16,
+        color: '#424242',
+        marginTop: 8,
     },
 });
 

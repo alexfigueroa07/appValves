@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 
-const Notification = () => {
-    // State to keep track of which notifications are visible
+const Notification = ({ navigation }: any) => {
     const [visibleNotifications, setVisibleNotifications] = useState({
         problema: true,
         fugaDetectada: true,
         fugaArreglada: true,
     });
 
-    // Function to hide a notification
     const dismissNotification = (notificationKey: string) => {
         setVisibleNotifications((prevState) => ({
             ...prevState,
@@ -22,13 +20,17 @@ const Notification = () => {
             {visibleNotifications.problema && (
                 <View style={[styles.notificationContainer, styles.problemNotification]}>
                     <Image
-                        source={require('../assets/images/alerta.png')} // Replace with your logo path
+                        source={require('../assets/images/alerta.png')}
                         style={styles.logo}
                         resizeMode="contain"
                     />
                     <View style={styles.messageContainer}>
-                        <Text style={styles.title}>Ups, parece que hay un problema en tu empresa</Text>
-                        <Text style={styles.message}>Hay algo extraño en el sensor X de la válvula X, échale un vistazo.</Text>
+                        <Text style={styles.title}>
+                            Ups, parece que hay un problema en tu empresa
+                        </Text>
+                        <Text style={styles.message}>
+                            Hay algo extraño en el sensor X de la válvula X, échale un vistazo.
+                        </Text>
                     </View>
                     <TouchableOpacity
                         style={styles.dismissButton}
@@ -38,38 +40,47 @@ const Notification = () => {
                     </TouchableOpacity>
                 </View>
             )}
+
             {visibleNotifications.fugaDetectada && (
                 <View style={[styles.notificationContainer, styles.leakNotification]}>
                     <Image
-                        source={require('../assets/images/chapoteo.gif')} // Replace with your logo path
+                        source={require('../assets/images/chapoteo.gif')}
                         style={styles.logo}
                         resizeMode="contain"
                     />
                     <View style={styles.messageContainer}>
-                        <Text style={styles.title}>FUGA DETECTADA</Text>
-                        <Text style={styles.message}>Revisa la fuga que se encuentra en almacen.</Text>
+                        <Text style={styles.title}>FUGA DETECTADA EN BAÑO</Text>
                     </View>
-                    <TouchableOpacity
-                        style={styles.dismissButton}
-                        onPress={() => dismissNotification('fugaDetectada')}
-                    >
-                        <Text style={styles.dismissText}>OK</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.callButton}>
-                        <Text style={styles.callText}>LLAMAR</Text>
-                    </TouchableOpacity>
+                    {/* Botones reorganizados */}
+                    <View style={styles.singleButtonGroup}>
+                        <TouchableOpacity
+                            style={styles.smallActionButton}
+                            onPress={() => navigation.navigate('Valves')}
+                        >
+                            <Text style={styles.actionText}>Ir a Válvulas</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.smallSecondaryButton}
+                            onPress={() => navigation.navigate('HistoryLeaks')}
+                        >
+                            <Text style={styles.secondaryText}>Registrar Fuga</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             )}
+
             {visibleNotifications.fugaArreglada && (
                 <View style={[styles.notificationContainer, styles.resolvedNotification]}>
                     <Image
-                        source={require('../assets/images/ahorrar-agua.gif')} // Replace with your logo path
+                        source={require('../assets/images/ahorrar-agua.gif')}
                         style={styles.logo}
                         resizeMode="contain"
                     />
                     <View style={styles.messageContainer}>
                         <Text style={styles.title}>Fuga arreglada</Text>
-                        <Text style={styles.message}>El departamento de control soluciono la fuga.</Text>
+                        <Text style={styles.message}>
+                            El departamento de control solucionó la fuga.
+                        </Text>
                     </View>
                     <TouchableOpacity
                         style={styles.dismissButton}
@@ -94,16 +105,16 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 8,
-        elevation: 5, // For Android shadow
+        elevation: 5,
     },
     problemNotification: {
-        backgroundColor: '#FFEBEE', // Red background for the problem notification
+        backgroundColor: '#FFEBEE',
     },
     leakNotification: {
-        backgroundColor: '#FFFFFF', // White background for the leak detected notification
+        backgroundColor: '#FFFFFF',
     },
     resolvedNotification: {
-        backgroundColor: '#FFFFFF', // White background for the resolved notification
+        backgroundColor: '#FFFFFF',
     },
     logo: {
         width: 50,
@@ -137,6 +148,36 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontWeight: 'bold',
         fontSize: 14,
+    },
+    singleButtonGroup: {
+        marginTop: 10,
+        alignItems: 'center', // Centra los botones
+    },
+    smallActionButton: {
+        backgroundColor: '#4BA69D',
+        borderRadius: 8,
+        paddingVertical: 6, // Más pequeño
+        paddingHorizontal: 15, // Reduce el ancho
+        marginBottom: 10, // Espaciado entre botones
+        alignItems: 'center',
+    },
+    smallSecondaryButton: {
+        backgroundColor: '#B3E5FC',
+        borderRadius: 8,
+        paddingVertical: 6, // Más pequeño
+        paddingHorizontal: 15, // Reduce el ancho
+        marginBottom: 10,
+        alignItems: 'center',
+    },
+    actionText: {
+        color: '#FFFFFF',
+        fontWeight: 'bold',
+        fontSize: 12, // Texto más pequeño
+    },
+    secondaryText: {
+        color: '#01579B',
+        fontWeight: 'bold',
+        fontSize: 12, // Texto más pequeño
     },
     callButton: {
         backgroundColor: '#4CAF50',

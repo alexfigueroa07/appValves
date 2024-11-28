@@ -19,35 +19,34 @@ const WelcomeUser = ({ navigation }: { navigation: any }) => {
         fetchUserData();
     }, []);
 
-    // Function to navigate to home screen
     const handleStartWorking = () => {
         navigation.navigate('Home');
     };
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {/* Logo at the top */}
+            {/* Logo */}
             <Image
                 source={require('../assets/images/LOGO alert h2oiso.png')}
                 style={styles.logo}
                 resizeMode="contain"
             />
 
-            {/* Company Name and Greeting */}
-            <View style={styles.companyContainer}>
-                <View style={styles.companyInfo}>
-                    <Text style={styles.companyName}>{userData.companyName || 'Nombre de Empresa'}</Text>
-                    <Text style={styles.companyAddress}>{userData.companyAddress || 'Dirección de la Empresa'}</Text>
-                    <Text style={styles.greeting}>¡Bienvenido, {userData.name || 'Nombre de Usuario'}!</Text>
-                </View>
+            {/* Información del usuario */}
+            <View style={styles.userInfoContainer}>
+                <Text style={styles.companyName}>{userData.companyName || 'Nombre de Empresa'}</Text>
+                <Text style={styles.companyAddress}>{userData.companyAddress || 'Dirección de la Empresa'}</Text>
+                <Text style={styles.greeting}>¡Bienvenido, {userData.name || 'Nombre de Usuario'}!</Text>
             </View>
+
+            {/* Slogan */}
             <Text style={styles.slogan}>¿Cómo podemos ayudarte hoy?</Text>
 
-            {/* Start Working Button */}
-            <TouchableOpacity style={styles.startButton} onPress={handleStartWorking}>
+            {/* Botones */}
+            <TouchableOpacity style={[styles.button, styles.greyButton]} onPress={handleStartWorking}>
                 <Text style={styles.buttonText}>Empezar a Trabajar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.startButton} onPress={() => navigation.navigate('EditInformation')}>
+            <TouchableOpacity style={[styles.button, styles.blueButton]} onPress={() => navigation.navigate('EditInformation')}>
                 <Text style={styles.buttonText}>Editar mi información</Text>
             </TouchableOpacity>
         </ScrollView>
@@ -58,68 +57,71 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#FFFFFF', // Fondo blanco
         alignItems: 'center',
-        justifyContent: 'space-between',
     },
     logo: {
+        marginTop: 200,
+
         width: 200,
-        height: 200,
-        marginTop: 3,
-    },
-    alertTitle: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: '#1E88E5',
-        marginBottom: 8,
-        textAlign: 'center',
+        height: 100,
+        marginBottom: 20,
     },
     slogan: {
         fontSize: 16,
         fontStyle: 'italic',
-        color: '#1E88E5',
+        color: '#737373', // Gris oscuro
         textAlign: 'center',
-        marginBottom: 10,
+        marginBottom: 20,
     },
-    companyContainer: {
-        backgroundColor: '#D8F0F2', // Light blue transparent background
+    userInfoContainer: {
+        backgroundColor: '#F5F5F5', // Gris muy claro
         borderRadius: 10,
         padding: 20,
-        marginBottom: 40,
-    },
-    companyInfo: {
+        width: '100%',
         alignItems: 'center',
+        marginBottom: 20,
+        shadowColor: '#000', // Sombra sutil
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3, // Sombra para Android
     },
     companyName: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: 'bold',
-        color: '#1E88E5',
+        color: '#424242', // Gris oscuro
         textAlign: 'center',
+        marginBottom: 8,
     },
     companyAddress: {
-        fontSize: 16,
-        color: '#1E88E5',
+        fontSize: 14,
+        color: '#737373', // Gris más claro
         textAlign: 'center',
-        marginBottom: 16,
+        marginBottom: 8,
     },
     greeting: {
-        fontSize: 18,
-        color: '#4BA69D',
+        fontSize: 16,
+        color: '#04BFBF', // Azul principal
         textAlign: 'center',
-        marginBottom: 40,
     },
-    startButton: {
-        backgroundColor: '#4BA69D',
-        paddingVertical: 12,
-        paddingHorizontal: 40,
-        borderRadius: 8,
-        marginBottom: 40,
+    button: {
+        width: '100%',
+        paddingVertical: 15,
+        borderRadius: 25,
+        alignItems: 'center',
+        marginBottom: 10, // Menor espacio entre botones
+    },
+    greyButton: {
+        backgroundColor: '#424242', // Botón principal en gris oscuro
+    },
+    blueButton: {
+        backgroundColor: '#04BFBF', // Botón secundario en azul
     },
     buttonText: {
-        fontSize: 18,
-        color: '#ffffff',
+        color: '#FFFFFF', // Texto blanco
+        fontSize: 16,
         fontWeight: 'bold',
-        textAlign: 'center',
     },
 });
 
